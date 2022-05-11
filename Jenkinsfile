@@ -1,0 +1,57 @@
+pipeline {
+  environment {
+    imagename = "anubhavmohanty/college_academic_portal"
+    registryCredential = 'anubhav_dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git([url: 'https://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@github.com/anubhavm32/college_academic_portal.git', branch: 'master', credentialsId: 'ecd51422-ec13-421f-b4fa-f507202db335'])
+
+      }
+    }
+    stage('Python Build') {
+      steps{
+         sh "python3 manage.py migrate"
+      }
+    }
+   
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+             dockerImage.push('latest')
+          }
+        }
+      }
+    }
+    stage('Remove Unused docker image') {
+      steps{
+         sh "docker rmi $imagename:latest"
+      }
+    }
+
+    stage("Invoke ansible playbook") {
+      steps{
+      ansiblePlaybook(
+      	credentialsId: "contnainer_access_key",
+        inventory: "Inventory",
+        installation: "ansible",
+        limit: "",
+        playbook: "docker_playbook.yaml",
+        extras: ""
+      )
+    }
+    }
+
+  }
+}
