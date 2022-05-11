@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-LABEL "Author"="Anubhav"
+LABEL "Author"="Parthik"
 LABEL "Project"="College_academic_portal"
 RUN apt update && apt install git -y
 RUN apt install python3 -y
@@ -27,5 +27,5 @@ RUN pip3 install pillow
 WORKDIR /home
 EXPOSE 8000
 RUN git init
-RUN git pull https://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@github.com/anubhavm32/college_academic_portal.git
+RUN git pull https://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@github.com/parthik21/college_academic_portal.git
 CMD ["python3", "./manage.py", "runserver", "0.0.0.0:8000"]

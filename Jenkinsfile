@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://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@github.com/anubhavm32/college_academic_portal.git', branch: 'master', credentialsId: 'ecd51422-ec13-421f-b4fa-f507202db335'])
+        git([url: 'https://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@github.com/parthik21/college_academic_portal.git'])
 
       }
     }
