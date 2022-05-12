@@ -17,14 +17,14 @@ pipeline {
          sh "python3 manage.py migrate"
       }
     }
-   
-    stage('Building image') {
+    stage("Api Testing"){
       steps{
         script {
-          dockerImage = docker.build imagename
+          sh "python3 tests.py"
         }
       }
     }
+
     stage('Deploy Image') {
       steps{
         script {

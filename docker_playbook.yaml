@@ -20,12 +20,12 @@
         state: latest
         update_cache: true
 
-    - name: Pull calculator docker image
+    - name: Pull classroom docker image
       community.docker.docker_image:
         name: anubhavmohanty/college_academic_portal
         source: pull
 
-    - name: Launch the calculator container
+    - name: Launch the classroom container
       docker_container:
         name: college_academic_portal
         image: anubhavmohanty/college_academic_portal
