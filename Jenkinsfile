@@ -17,13 +17,7 @@ pipeline {
          sh "python3 manage.py migrate"
       }
     }
-    stage("Api Testing"){
-      steps{
-        script {
-          sh "python3 tests.py"
-        }
-      }
-    }
+
     stage('Building image') {
         steps{
           script {
