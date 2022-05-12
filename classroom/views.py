@@ -17,19 +17,19 @@ from classroom import models
 from classroom.models import StudentsInClass,StudentMarks,ClassAssignment,SubmitAssignment,Student,Teacher
 from django.contrib.auth.forms import PasswordChangeForm
 from django.db.models import Q
-
+import logging
+logger = logging.getLogger(__name__)
 
 # For Teacher Sign Up
 def TeacherSignUp(request):
     user_type = 'teacher'
     registered = False
-
+    logger.info('Teacher sign up accessed!')
     if request.method == "POST":
         user_form = UserForm(data = request.POST)
         teacher_profile_form = TeacherProfileForm(data = request.POST)
 
         if user_form.is_valid() and teacher_profile_form.is_valid():
-
             user = user_form.save()
             user.is_teacher = True
             user.save()
@@ -39,12 +39,16 @@ def TeacherSignUp(request):
             profile.save()
 
             registered = True
+            logger.info('Teacher sign up successfull')
         else:
+            logger.info("Teacher sign up was unsuccessfull")
             print(user_form.errors,teacher_profile_form.errors)
     else:
+       
         user_form = UserForm()
         teacher_profile_form = TeacherProfileForm()
-
+        
+    logger.info("Teacher form was rendered.")
     return render(request,'classroom/teacher_signup.html',{'user_form':user_form,'teacher_profile_form':teacher_profile_form,'registered':registered,'user_type':user_type})
 
 
@@ -90,6 +94,7 @@ def user_login(request):
 
         if user:
             if user.is_active:
+                
                 login(request,user)
                 return HttpResponseRedirect(reverse('home'))
 
