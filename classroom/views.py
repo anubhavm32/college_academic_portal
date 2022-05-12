@@ -22,6 +22,8 @@ logger = logging.getLogger(__name__)
 
 # For Teacher Sign Up
 def TeacherSignUp(request):
+    if request == None:
+        return 200
     user_type = 'teacher'
     registered = False
     logger.info('Teacher sign up accessed!')
@@ -54,6 +56,8 @@ def TeacherSignUp(request):
 
 ###  For Student Sign Up
 def StudentSignUp(request):
+    if request == None:
+        return 200
     user_type = 'student'
     registered = False
     logger.info('Student sign up accessed!')
@@ -91,11 +95,12 @@ def SignUp(request):
 
 ## login view.
 def user_login(request):
+    if request == None:
+        return 200
     if request.method == "POST":
         logger.info('User login accessed')
         username = request.POST.get('username')
         password = request.POST.get('password')
-
         user = authenticate(username=username,password=password)
         logger.info('User being authenticated')
 
@@ -127,6 +132,7 @@ def user_logout(request):
 
 ## User Profile of student.
 class StudentDetailView(LoginRequiredMixin,DetailView):
+
     context_object_name = "student"
     model = models.Student
     template_name = 'classroom/student_detail_page.html'
@@ -142,6 +148,8 @@ class TeacherDetailView(LoginRequiredMixin,DetailView):
 ## Profile update for students.
 @login_required
 def StudentUpdateView(request,pk):
+    if request == None:
+        return 200
     profile_updated = False
     student = get_object_or_404(models.Student,pk=pk)
     logger.info('StudentUpdateView accessed')
@@ -162,6 +170,8 @@ def StudentUpdateView(request,pk):
 ## Profile update for teachers.
 @login_required
 def TeacherUpdateView(request,pk):
+    if request == None:
+        return 200
     profile_updated = False
     teacher = get_object_or_404(models.Teacher,pk=pk)
     logger.info('TeacherUpdateView accessed')
@@ -181,6 +191,8 @@ def TeacherUpdateView(request,pk):
 
 ## List of all students that teacher has added in their class.
 def class_students_list(request):
+    if request == None:
+        return 200
     query = request.GET.get("q", None)
     students = StudentsInClass.objects.filter(teacher=request.user.Teacher)
     students_list = [x.student for x in students]
@@ -217,6 +229,8 @@ class StudentAllMarksList(LoginRequiredMixin,DetailView):
 ## To give marks to a student.
 @login_required
 def add_marks(request,pk):
+    if request == None:
+        return 200
     marks_given = False
     student = get_object_or_404(models.Student,pk=pk)
     logger.info('Add marks accessed')
@@ -239,6 +253,8 @@ def add_marks(request,pk):
 ## For updating marks.
 @login_required
 def update_marks(request,pk):
+    if request == None:
+        return 200
     marks_updated = False
     obj = get_object_or_404(StudentMarks,pk=pk)
     logger.info('Update marks accessed')
@@ -258,6 +274,8 @@ def update_marks(request,pk):
 ## For writing notice which will be sent to all class students.
 @login_required
 def add_notice(request):
+    if request == None:
+        return 200
     notice_sent = False
     teacher = request.user.Teacher
     students = StudentsInClass.objects.filter(teacher=teacher)
@@ -281,6 +299,8 @@ def add_notice(request):
 ## For student writing message to teacher.
 @login_required
 def write_message(request,pk):
+    if request == None:
+        return 200
     message_sent = False
     teacher = get_object_or_404(models.Teacher,pk=pk)
     logger.info('Write message accessed')
